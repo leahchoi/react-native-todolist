@@ -23,39 +23,48 @@ export default class App extends Component {
     })
   }
 
-  submitHandler = (event) => {
-    console.log('submithandler', this.state.inputText)
-    var todo = this.state.todoItems.concat(this.state.inputText);
-    console.log('submit handler todo', todo)
-    this.setState(prevState => {
-      return {
-        todoItems: prevState.todoItems.concat(prevState.inputText)
-      }
-    })
-    console.log('submithandler: todoItems', this.state)
+  deleteItem = (i) => {
+    console.log('deleteitem index:', i);
+    // console.log('deleteitem event:', event);
+
+  }
+
+  displayOnDom = () => {
+    if (this.state.inputText === '') {
+      alert('Please input a valid todo list item!')
+    } else {
+      this.setState(prevState => {
+        return {
+          todoItems: prevState.todoItems.concat(prevState.inputText)
+        }
+      })
+    }
   }
 
   render() {
-
+    const displayTodoItems = (this.state.todoItems).map((todoItem) =>
+      <View style={styles.todoListContainer}>
+        <Text style={styles.text}>
+          {todoItem}
+        </Text>
+        <Button title='Delete' style={styles.deleteBtn} onPress={this.deleteItem} />
+      </View>
+    )
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.inputBox}
-          // onChangeText={(text) => this.addTodoItems}
-          onChangeText={this.addTodoItems}
-          value={this.state.inputText}
-        />
-        <Button
-          // style={styles.button}
-          title='Add'
-          onPress={this.submitHandler}
-        />
-        <View>
-         <Text style={styles.text}>
-            {this.state.todoItems}
-          </Text>
-          <Button  title='delete' /> 
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={this.addTodoItems}
+            value={this.state.inputText}
+          />
+          <Button
+            title='Add'
+            style={styles.addBtn}
+            onPress={this.displayOnDom}
+          />
         </View>
+        {displayTodoItems}
       </View>
     );
   }
@@ -67,17 +76,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    paddingTop: 40
+    paddingTop: 50
 
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  todoListContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
   inputBox: {
     height: 40,
-    width: 200,
+    width: '70%',
     borderColor: 'gray',
     borderWidth: 1
   },
-  text:{
+  addBtn: {
+    width: '25%',
+    paddingLeft: 5,
+  },
+  deleteBtn: {
+    width: '25%'
+  },
+  text: {
     fontSize: 20,
+    width: '80%',
+    paddingLeft: 5
   },
   welcome: {
     fontSize: 20,
