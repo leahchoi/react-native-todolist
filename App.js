@@ -6,35 +6,78 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+export default class App extends Component {
 
-type Props = {};
-export default class App extends Component<Props> {
+  state = {
+    inputText: '',
+    todoItems: []
+  }
+
+  addTodoItems = (userInput) => {
+    console.log(userInput)
+    this.setState({
+      inputText: userInput,
+    })
+  }
+
+  submitHandler = (event) => {
+    console.log('submithandler', this.state.inputText)
+    var todo = this.state.todoItems.concat(this.state.inputText);
+    console.log('submit handler todo', todo)
+    this.setState(prevState => {
+      return {
+        todoItems: prevState.todoItems.concat(prevState.inputText)
+      }
+    })
+    console.log('submithandler: todoItems', this.state)
+  }
+
   render() {
+
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <TextInput
+          style={styles.inputBox}
+          // onChangeText={(text) => this.addTodoItems}
+          onChangeText={this.addTodoItems}
+          value={this.state.inputText}
+        />
+        <Button
+          // style={styles.button}
+          title='Add'
+          onPress={this.submitHandler}
+        />
+        <View>
+         <Text style={styles.text}>
+            {this.state.todoItems}
+          </Text>
+          <Button  title='delete' /> 
+        </View>
       </View>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    paddingTop: 40
+
+  },
+  inputBox: {
+    height: 40,
+    width: 200,
+    borderColor: 'gray',
+    borderWidth: 1
+  },
+  text:{
+    fontSize: 20,
   },
   welcome: {
     fontSize: 20,
