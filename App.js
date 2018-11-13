@@ -16,38 +16,39 @@ export default class App extends Component {
     todoItems: []
   }
 
-  addTodoItems = (userInput) => {
+  textChangeHandler = (userInput) => {
     console.log(userInput)
     this.setState({
       inputText: userInput,
     })
   }
 
-  deleteItem = (i) => {
-    console.log('deleteitem index:', i);
-    // console.log('deleteitem event:', event);
-
+  deleteItem = (val) => {
+    this.setState({
+      todoItems: this.state.todoItems.filter(entry => entry !== val)
+    })
   }
 
-  displayOnDom = () => {
+  addTodoItem = () => {
     if (this.state.inputText === '') {
       alert('Please input a valid todo list item!')
     } else {
       this.setState(prevState => {
         return {
-          todoItems: prevState.todoItems.concat(prevState.inputText)
+          todoItems: prevState.todoItems.concat(prevState.inputText),
+          inputText: ''
         }
       })
     }
   }
 
   render() {
-    const displayTodoItems = (this.state.todoItems).map((todoItem) =>
-      <View style={styles.todoListContainer}>
+    const displayTodoItems = (this.state.todoItems).map((todoItem, index) =>
+      <View style={styles.todoListContainer} key={todoItem}>
         <Text style={styles.text}>
           {todoItem}
         </Text>
-        <Button title='Delete' style={styles.deleteBtn} onPress={this.deleteItem} />
+        <Button title='Delete' style={styles.deleteBtn} onPress={() => this.deleteItem(todoItem)} />
       </View>
     )
     return (
@@ -55,13 +56,13 @@ export default class App extends Component {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputBox}
-            onChangeText={this.addTodoItems}
+            onChangeText={this.textChangeHandler}
             value={this.state.inputText}
           />
           <Button
             title='Add'
             style={styles.addBtn}
-            onPress={this.displayOnDom}
+            onPress={this.addTodoItem}
           />
         </View>
         {displayTodoItems}
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
-  todoListContainer:{
+  todoListContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
