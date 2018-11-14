@@ -8,6 +8,21 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+// import { Provider } from 'react-redux';
+// import { createStore } from 'redux';
+// import reducers from './reducers';
+// import Input from './components/Input';
+// import store from './src/store/index'
+
+// const App = () => {
+//   return(
+//     <Provider store={createStore(reducers)}>
+//     <Input />
+//       <View />
+//     </Provider>
+//   )
+// }
+
 
 export default class App extends Component {
 
@@ -67,13 +82,12 @@ export default class App extends Component {
         </View>
         {displayTodoItems}
       </View>
-    );
+    )
   }
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
