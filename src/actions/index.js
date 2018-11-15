@@ -1,6 +1,7 @@
 export const textChangeHandler = (text) => {
+    // console.log("hello");
     return {
-        type: 'userInput',
-        payload: text
+        type: 'ON_TEXT_CHANGE',
+        text: text
     }
 }
