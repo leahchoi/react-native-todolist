@@ -6,8 +6,6 @@ import rootReducer from './src/reducers';
 // import ReduxThunk from 'redux-thunk';
 import Input from './src/components/Input';
 
-// import Home from './src/screens/home';
-
 
 const store = createStore(rootReducer, {});
 
@@ -17,7 +15,6 @@ export default class App extends Component<Props> {
         return (
             <Provider store={store}>
                 <View style={styles.container}>
-                    {/* <Home /> */}
                     <Input />
                 </View>
             </Provider>
